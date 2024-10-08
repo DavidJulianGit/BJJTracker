@@ -1,0 +1,25 @@
+/* Quill Editor Custom Styles */
+.ql-container {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+  
+.ql-toolbar {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0.25rem;
+}
+  
+.ql-editor {
+    min-height: 200px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.fs-7{
+    font-size: 0.8rem;
+}
+
+html{
+    font-size: 14px;
+}
