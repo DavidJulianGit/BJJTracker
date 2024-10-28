@@ -3,52 +3,83 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const Tag = require('../models/Tag');
 
+// Apply auth middleware to all routes
+router.use(auth);
+
 // GET all tags
-router.get('/', auth, async (req, res) => {
-  console.log('GET /api/tags');
+router.get('/', async (req, res) => {
   try {
-    const tags = await Tag.find();
-    console.log('Tags found:', tags);
+    const tags = await Tag.find({ user: req.user.id });
     res.json(tags);
   } catch (err) {
-    console.error('Error in GET /api/tags:', err);
-    res.status(500).json({ error: 'Server Error', message: err.message, stack: err.stack });
+    console.error('Error fetching tags:', err);
+    res.status(500).json({ message: err.message });
   }
 });
 
 // POST new tag
-router.post('/', auth, async (req, res) => {
-  console.log('POST /api/tags');
+router.post('/', async (req, res) => {
   try {
+    
     const { name } = req.body;
-    const newTag = new Tag({ name });
-    const savedTag = await newTag.save();
-    console.log('New tag created:', savedTag);
-    res.status(201).json(savedTag);
+    console.log("name in POST /api/tags",name);
+   
+    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
+    console.log("capitalizedName in POST /api/tags",capitalizedName);
+    
+    // Check if a tag with the same name already exists for this user
+    const existingTag = await Tag.findOne({ name: capitalizedName, user: req.user.id });
+    console.log("existingTag in POST /api/tags",existingTag);
+    
+    if (existingTag)
+    {
+      if (!existingTag.isDeleted) 
+      {
+        return res.status(400).json({ message: `A tag with name '${capitalizedName}' already exists.`});
+      } 
+      else
+      {
+        existingTag.isDeleted = false;
+        const savedTag = await existingTag.save();
+        res.status(201).json(savedTag);
+      }
+    }
+    else{
+      console.log("inside else in POST /api/tags");
+      const newTag = new Tag({ name: capitalizedName, user: req.user.id });
+      console.log("newTag in POST /api/tags",newTag);
+      const savedTag = await newTag.save();
+      console.log("savedTag in POST /api/tags",savedTag);
+      res.status(201).json(savedTag);
+    }
+
   } catch (err) {
     console.error('Error in POST /api/tags:', err);
-    res.status(500).json({ error: 'Server Error', message: err.message, stack: err.stack });
+    res.status(500).json({ error: 'Server Error', message: err.message });
   }
 });
 
 // PUT update tag
-router.put('/:id', auth, async (req, res) => {
-  console.log('PUT /api/tags/:id');
+router.put('/:id', async (req, res) => {
   try {
     const { name } = req.body;
+    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
     const tagId = req.params.id;
 
-    // Check if the tag exists
-    let tag = await Tag.findById(tagId);
+    let tag = await Tag.findOne({ _id: tagId, user: req.user.id });
     if (!tag) {
       return res.status(404).json({ error: 'Tag not found' });
     }
 
-    // Update the tag
-    tag.name = name;
+    // Check if a tag with the same name already exists for this user
+    const existingTag = await Tag.findOne({ name: capitalizedName, user: req.user.id, _id: { $ne: tagId } });
+    if (existingTag) {
+      return res.status(400).json({ message: `A tag with name '${capitalizedName}' already exists.`});
+    }
+
+    tag.name = capitalizedName;
     await tag.save();
 
-    console.log('Updated tag:', tag);
     res.json(tag);
   } catch (err) {
     console.error('Error in PUT /api/tags/:id:', err);
@@ -57,19 +88,16 @@ router.put('/:id', auth, async (req, res) => {
 });
 
 // DELETE tag
-router.delete('/:id', auth, async (req, res) => {
-  console.log('DELETE /api/tags/:id');
+router.delete('/:id', async (req, res) => {
   try {
     const tagId = req.params.id;
 
-    // Attempt to find and delete the tag
-    const tag = await Tag.findByIdAndDelete(tagId);
+    const tag = await Tag.findOneAndUpdate({ _id: tagId, user: req.user.id }, { isDeleted: true });
     if (!tag) {
       return res.status(404).json({ error: 'Tag not found' });
     }
 
-    console.log('Tag removed:', tagId);
-    res.json({ msg: 'Tag removed' });
+    res.json({ msg: 'Tag soft deleted' });
   } catch (err) {
     console.error('Error in DELETE /api/tags/:id:', err);
     res.status(500).json({ error: 'Server Error', message: err.message });

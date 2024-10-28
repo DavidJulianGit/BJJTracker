@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUserProfile, updateUserProfile } from '../store/slices/userSlice';
 import { useAuth } from '../contexts/AuthContext';
 import {
    Container,
@@ -12,7 +14,9 @@ import {
 import { EyeSlashFill, EyeFill, ExclamationTriangleFill } from 'react-bootstrap-icons';
 
 export default function ProfileView() {
-   const { user, logout } = useAuth();
+   const dispatch = useDispatch();
+   const { currentUser, status, error } = useSelector((state) => state.user);
+   const { logout } = useAuth();
    const [localUser, setLocalUser] = useState({
       email: '',
       username: '',
@@ -29,17 +33,19 @@ export default function ProfileView() {
    const [deleteConfirmation, setDeleteConfirmation] = useState('');
 
    useEffect(() => {
-      console.log(user);
-      
-      if (user) {
+      dispatch(fetchUserProfile());
+   }, [dispatch]);
+
+   useEffect(() => {
+      if (currentUser) {
          setLocalUser({
-            email: user.email || '',
-            username: user.username || '',
-            rank: user.rank || '',
-            stripes: user.stripes || 0
+            email: currentUser.email || '',
+            username: currentUser.username || '',
+            rank: currentUser.rank || '',
+            stripes: currentUser.stripes || 0
          });
       }
-   }, [user]);
+   }, [currentUser]);
 
    const togglePasswordVisibility = () => {
       setPasswordShown(!passwordShown);
@@ -47,42 +53,16 @@ export default function ProfileView() {
 
    const handleUserUpdateSubmit = async (event) => {
       event.preventDefault();
-      const token = localStorage.getItem('token');
-      console.log('Token from localStorage:', token); // Log the token
-
-      if (!token) {
-         console.error('No token found in localStorage');
-         setModalData({ title: 'Error', message: 'No authentication token found. Please log in again.' });
-         setShowModal(true);
-         return;
-      }
-
+      const updateData = {
+         username: localUser.username,
+         email: localUser.email,
+         rank: localUser.rank,
+         stripes: localUser.stripes
+      };
+      console.log('Sending update data:', updateData);
       try {
-         const response = await fetch('http://localhost:5000/api/users/me', {
-            method: 'PUT',
-            headers: {
-               'Content-Type': 'application/json',
-               'Authorization': `Bearer ${token}` // Ensure there's a space after 'Bearer'
-            },
-            body: JSON.stringify(localUser)
-         });
-
-         console.log('Request headers:', {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-         });
-         console.log('Response status:', response.status);
-         console.log('Response headers:', response.headers);
-
-         const responseBody = await response.text();
-         console.log('Response body:', responseBody);
-
-         if (!response.ok) {
-            throw new Error(`Failed to update profile: ${response.status} ${responseBody}`);
-         }
-
-         const updatedUser = JSON.parse(responseBody);
-         setLocalUser(updatedUser);
+         const result = await dispatch(updateUserProfile(updateData)).unwrap();
+         console.log('Update result:', result);
          setModalData({ title: 'Success', message: 'Profile updated successfully' });
          setShowModal(true);
       } catch (error) {
@@ -162,83 +142,91 @@ export default function ProfileView() {
             throw new Error('Failed to delete account');
          }
 
-         logout();
-       
+         logout(); 
+         navigate('/');
       } catch (error) {
          setModalData({ title: 'Error', message: error.message });
          setShowModal(true);
       }
    };
 
+   const passwordsMatch = newPassword === newPasswordRepeat && newPassword.length >= 8;
+
    return (
-      <Container className="mt-5">
+      <Container className="my-5">
+         <Row className="align-items-center mb-4">
+            <Col>
+               <h2 className="display-6">Profile</h2>
+            </Col>
+         </Row>
          <Row>
             <Col>
-               <h2 className="mb-4">Profile</h2>
-               <Form className="form" onSubmit={handleUserUpdateSubmit}>
-                  <Form.Group className="mb-3">
-                     <Form.Label>Email</Form.Label>
-                     <Form.Control
-                        type="email"
-                        value={localUser.email}
-                        onChange={(e) => setLocalUser({ ...localUser, email: e.target.value })}
-                        required
-                     />
-                  </Form.Group>
+               {status === 'loading' && <p>Loading...</p>}
+               {status === 'failed' && <p>Error: {error}</p>}
+               {status === 'succeeded' && (
+                  <Form className="form" onSubmit={handleUserUpdateSubmit}>
+                     <Form.Group className="mb-3">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                           type="email"
+                           value={localUser.email}
+                           onChange={(e) => setLocalUser({ ...localUser, email: e.target.value })}
+                           required
+                        />
+                     </Form.Group>
 
-                  <Form.Group className="mb-3">
-                     <Form.Label>Username</Form.Label>
-                     <Form.Control
-                        type="text"
-                        value={localUser.username}
-                        onChange={(e) => setLocalUser({ ...localUser, username: e.target.value })}
-                        required
-                     />
-                  </Form.Group>
+                     <Form.Group className="mb-3">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control
+                           type="text"
+                           value={localUser.username}
+                           onChange={(e) => setLocalUser({ ...localUser, username: e.target.value })}
+                           required
+                        />
+                     </Form.Group>
 
-                  <Form.Group className="mb-3">
-                     <Form.Label>Belt Rank</Form.Label>
-                     <Form.Select
-                        value={localUser.rank}
-                        onChange={(e) => setLocalUser({ ...localUser, rank: e.target.value })}
-                     >
-                        <option value="white">White</option>
-                        <option value="blue">Blue</option>
-                        <option value="purple">Purple</option>
-                        <option value="brown">Brown</option>
-                        <option value="black">Black</option>
-                     </Form.Select>
-                  </Form.Group>
+                     <Form.Group className="mb-3">
+                        <Form.Label>Belt Rank</Form.Label>
+                        <Form.Select
+                           value={localUser.rank}
+                           onChange={(e) => setLocalUser({ ...localUser, rank: e.target.value })}
+                        >
+                           <option value="white">White</option>
+                           <option value="blue">Blue</option>
+                           <option value="purple">Purple</option>
+                           <option value="brown">Brown</option>
+                           <option value="black">Black</option>
+                        </Form.Select>
+                     </Form.Group>
 
-                  <Form.Group className="mb-3">
-                     <Form.Label>Stripes</Form.Label>
-                     <Form.Control
-                        type="number"
-                        value={localUser.stripes}
-                        onChange={(e) => setLocalUser({ ...localUser, stripes: parseInt(e.target.value) })}
-                        min="0"
-                        max="4"
-                     />
-                  </Form.Group>
+                     <Form.Group className="mb-3">
+                        <Form.Label>Stripes</Form.Label>
+                        <Form.Control
+                           type="number"
+                           value={localUser.stripes}
+                           onChange={(e) => setLocalUser({ ...localUser, stripes: parseInt(e.target.value) })}
+                           min="0"
+                           max="4"
+                        />
+                     </Form.Group>
 
-                  <Button type="submit" className="mt-2">
-                     Save Changes
-                  </Button>
-               </Form>
+                     <Button type="submit">Update Profile</Button>
+                  </Form>
+               )}
 
-               <hr />
+               <hr className="my-4"/>
 
-               <h4 className="mt-4">Change Password</h4>
+               <h3 className="my-0">Change Password</h3>
                <Form onSubmit={(e) => { e.preventDefault(); setShowPasswordChangeModal(true); }}>
                   <Form.Group className="mb-3">
                      <Form.Label>New Password</Form.Label>
                      <InputGroup>
                         <Form.Control
-                           type={passwordShown ? 'text' : 'password'}
+                           type={passwordShown ? "text" : "password"}
                            value={newPassword}
                            onChange={(e) => setNewPassword(e.target.value)}
-                           minLength="8"
                            required
+                           minLength="8"
                         />
                         <Button variant="outline-secondary" onClick={togglePasswordVisibility}>
                            {passwordShown ? <EyeSlashFill /> : <EyeFill />}
@@ -250,11 +238,11 @@ export default function ProfileView() {
                      <Form.Label>Repeat New Password</Form.Label>
                      <InputGroup>
                         <Form.Control
-                           type={passwordShown ? 'text' : 'password'}
+                            type={passwordShown ? "text" : "password"}
                            value={newPasswordRepeat}
                            onChange={(e) => setNewPasswordRepeat(e.target.value)}
-                           minLength="8"
                            required
+                           minLength="8"
                         />
                         <Button variant="outline-secondary" onClick={togglePasswordVisibility}>
                            {passwordShown ? <EyeSlashFill /> : <EyeFill />}
@@ -262,14 +250,13 @@ export default function ProfileView() {
                      </InputGroup>
                   </Form.Group>
 
-                  <Button type="submit" className="mt-2">
-                     Change Password
-                  </Button>
+                  <Button type="submit" disabled={!passwordsMatch}>Change Password</Button>
                </Form>
 
                <hr />
 
-               <h4 className="mt-4">Delete Account</h4>
+               <h3 className="mt-4 text-danger">Delete Account</h3>
+               <p>This action cannot be undone. Please be certain.</p>
                <Button variant="danger" onClick={() => setShowDeleteConfirmationModal(true)}>
                   Delete Account
                </Button>
@@ -317,7 +304,7 @@ export default function ProfileView() {
          </Modal>
 
          <Modal show={showModal} onHide={() => setShowModal(false)}>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton variant="success">
                <Modal.Title>{modalData.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>{modalData.message}</Modal.Body>

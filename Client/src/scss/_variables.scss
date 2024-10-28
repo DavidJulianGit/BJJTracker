@@ -1,0 +1,136 @@
+// Override default variables
+$primary: #007bff;
+$secondary: #6c757d;
+$success: #28a745;
+$info: #17a2b8;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #343a40;
+
+// Define BJJ belt rank colors for light and dark modes
+$belt-colors: (
+  "white": (
+    "light": (
+      "primary": #8f8f8f,
+      "secondary": #bebebe,
+      "success": #66bb6a,
+      "info": #42a5f5,
+      "warning": #ffa726,
+      "danger": #9e1311,
+      "light": #fafafa,
+      "dark": #212121
+    ),
+    "dark": (
+      "primary": #484848,
+      "secondary": #616161,
+      "success": #66bb6a,
+      "info": #42a5f5,
+      "warning": #ffa726,
+      "danger": #ef5350,
+      "light": #fafafa,
+      "dark": #212121
+    )
+  ),
+  "blue": (
+    "light": (
+      "primary": #0065b8,
+      "secondary": #64b5f6,
+      "success": #4ea752,
+      "info": #42a5f5,
+      "warning": #ffa726,
+      "danger": #ef5350,
+      "light": #fafafa,
+      "dark": #212121
+    ),
+    "dark": (
+      "primary": #0a77dd,
+      "secondary": #16426e,
+      "success": #66bb6a,
+      "info": #42a5f5,
+      "warning": #ffa726,
+      "danger": #a35050,
+      "light": #fafafa60,
+      "dark": #212121
+    )
+  ),
+  "purple": (
+    "light": (
+      "primary": #9c27b0,
+      "secondary": #ca85d6,
+      "success": #66bb6a,
+      "info": #42a5f5,
+      "warning": #ffa726,
+      "danger": #ee5f33,
+      "light": #fafafa,
+      "dark": #212121
+    ),
+    "dark": (
+      "primary": #b13ed1,
+      "secondary": #b583ca,
+      "success": #66bb6a,
+      "info": #42a5f5,
+      "warning": #ffa726,
+      "danger": #eb7e26,
+      "light": #fafafa,
+      "dark": #212121
+    )
+  ),
+  "brown": (
+    "light": (
+      "primary": #795548,
+      "secondary": #a1887f,
+      "success": #66bb6a,
+      "info": #42a5f5,
+      "warning": #ffa726,
+      "danger": #ef5350,
+      "light": #fafafa,
+      "dark": #212121
+    ),
+    "dark": (
+      "primary": #6d4c41,
+      "secondary": #5d4037,
+      "success": #66bb6a,
+      "info": #42a5f5,
+      "warning": #ffa726,
+      "danger": #ef5350,
+      "light": #fafafa,
+      "dark": #212121
+    )
+  ),
+  "black": (
+    "light": (
+      "primary": #d82222,
+      "secondary": #aca1a1,
+      "success": #66bb6a,
+      "info": #42a5f5,
+      "warning": #ffa726,
+      "danger": #ef5350,
+      "light": #fafafa,
+      "dark": #212121
+    ),
+    "dark": (
+      "primary": #d82222,
+      "secondary": #553b3be5,
+      "success": #66bb6a,
+      "info": #42a5f5,
+      "warning": #ffa726,
+      "danger": #ff0400,
+      "light": #fafafa,
+      "dark": #212121
+    )
+  )
+);
+
+// Set default theme (e.g., white belt, light mode)
+$theme-colors: map-get(map-get($belt-colors, "white"), "light");
+
+// Override Bootstrap's theme colors with the default theme
+$primary: map-get($theme-colors, "primary");
+$secondary: map-get($theme-colors, "secondary");
+$success: map-get($theme-colors, "success");
+$info: map-get($theme-colors, "info");
+$warning: map-get($theme-colors, "warning");
+$danger: map-get($theme-colors, "danger");
+$light: map-get($theme-colors, "light");
+$dark: map-get($theme-colors, "dark");

@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 
+
 const app = express();
 
 // Connect Database
@@ -19,7 +20,7 @@ app.use(cors({
 app.use(express.json({ extended: false }));
 
 // Define Routes
-app.use('/api/auth', require('./routes/auth'));
+
 app.use('/api/users', require('./routes/users'));
 app.use('/api/techniques', require('./routes/techniques'));
 app.use('/api/tags', require('./routes/tags'));

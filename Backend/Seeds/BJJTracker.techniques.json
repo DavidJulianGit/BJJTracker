@@ -1,0 +1,458 @@
+[
+  { 
+    "name": "Armbar",
+    "tags": ["Submission", "Armlock", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Ankle Lock",
+    "tags": ["Submission", "Leglock", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Straight Foot Lock",
+    "tags": ["Submission", "Leglock", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Backstep into Cross Ashi from Open Guard",
+    "tags": ["Passing", "Leg Entanglement", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Butterfly Post Ashi Garami",
+    "tags": ["Leg Entanglement", "Gi", "No-Gi"]  },
+  { 
+    "name": "Kimura",
+    "tags": ["Submission", "Shoulderlock", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Americana",
+    "tags": ["Submission", "Shoulderlock", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Triangle Choke",
+    "tags": ["Submission", "Choke", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Front Triangle",
+    "tags": ["Submission", "Choke", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Rear Triangle",
+    "tags": ["Submission", "Choke", "Gi", "No-Gi", "Back Control"]
+  },
+  { 
+    "name": "Inverted Triangle",
+    "tags": ["Submission", "Choke", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Wrong Way Triangle",
+    "tags": ["Submission", "Choke", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Guillotine",
+    "tags": ["Submission", "Choke", "No-Gi"]
+  },
+  { 
+    "name": "Arm-In Guillotine",
+    "tags": ["Submission", "Choke", "No-Gi"]
+  },
+  { 
+    "name": "One-Armed Guillotine",
+    "tags": ["Submission", "Choke", "No-Gi"]
+  },
+  { 
+    "name": "Rear-Naked Choke",
+    "tags": ["Submission", "Choke", "No-Gi", "Back Control"]
+  },
+  { 
+    "name": "Cross Collar Choke",
+    "tags": ["Submission", "Choke", "Gi"]
+  },
+  { 
+    "name": "Ezekiel Choke",
+    "tags": ["Submission", "Choke", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Loop Choke",
+    "tags": ["Submission", "Choke", "Gi"]
+  },
+  { 
+    "name": "D'Arce Choke",
+    "tags": ["Submission", "Choke", "No-Gi"]
+  },
+  { 
+    "name": "Anaconda Choke",
+    "tags": ["Submission", "Choke", "No-Gi"]
+  },
+  { 
+    "name": "Peruvian Necktie",
+    "tags": ["Submission", "Choke", "No-Gi"]
+  },
+  { 
+    "name": "Arm-Triangle",
+    "tags": ["Submission", "Choke", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "North-South Choke",
+    "tags": ["Submission", "Choke", "No-Gi"]
+  },
+  { 
+    "name": "Omoplata",
+    "tags": ["Submission", "Shoulderlock", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Gogoplata",
+    "tags": ["Submission", "Choke", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Heel Hook",
+    "tags": ["Submission", "Leglock", "No-Gi", "Heel Hook"]
+  },
+  { 
+    "name": "Outside Heel Hook",
+    "tags": ["Submission", "Leglock", "No-Gi", "Heel Hook"]
+  },
+  { 
+    "name": "Inside Heel Hook",
+    "tags": ["Submission", "Leglock", "No-Gi", "Heel Hook"]
+  },
+  { 
+    "name": "Kneebar",
+    "tags": ["Submission", "Leglock", "Gi", "No-Gi", "Kneebar"]
+  },
+  { 
+    "name": "Toe Hold",
+    "tags": ["Submission", "Leglock", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Straight Ankle Lock",
+    "tags": ["Submission", "Leglock", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Calf Slicer",
+    "tags": ["Submission", "Leglock", "Compression Lock", "No-Gi"]
+  },
+  { 
+    "name": "Wrist Lock",
+    "tags": ["Submission", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Irimi Ashi Garami",
+    "tags": ["Leglock", "No-Gi", "Positioning", "Leglock"]
+  },
+  { 
+    "name": "Outside Ashi Garami",
+    "tags": ["Leglock", "No-Gi", "Positioning", "Leglock"]
+  },
+  { 
+    "name": "Cross Ashi Garami",
+    "tags": ["Leglock", "No-Gi", "Positioning", "Leglock"]
+  },
+  { 
+    "name": "Inside Ashi Garami",
+    "tags": ["Leglock", "No-Gi", "Positioning", "Leglock"]
+  },
+  { 
+    "name": "Butterfly Ashi",
+    "tags": ["Leglock", "No-Gi", "Positioning", "Leglock"]
+  },
+  { 
+    "name": "Knee Cut Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Tight Passing"]
+  },
+  { 
+    "name": "Over-Under Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Tight Passing"]
+  },
+  { 
+    "name": "Stack Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Tight Passing"]
+  },
+  { 
+    "name": "Torreando Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Loose Passing"]
+  },
+  { 
+    "name": "Leg Drag Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Tight Passing"]
+  },
+  { 
+    "name": "Sparring",
+    "tags": ["Gi", "No-Gi"]
+  },
+  { 
+    "name": "Reverse X-Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Smash Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Tight Passing", "Pressure"]
+  },
+  { 
+    "name": "Double-Under Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Tight Passing", "Pressure"]
+  },
+  { 
+    "name": "X-Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Loose Passing", "Speed"]
+  },
+  { 
+    "name": "Reverse Half Guard Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Tight Passing"]
+  },
+  { 
+    "name": "Crossface Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Tight Passing", "Pressure"]
+  },
+  { 
+    "name": "Pressure Pass",
+    "tags": ["Pass", "Gi", "No-Gi", "Tight Passing", "Pressure"]
+  },
+  { 
+    "name": "Loose Passing",
+    "tags": ["Pass", "Gi", "No-Gi", "Loose Passing"]
+  },
+  { 
+    "name": "Tight Passing",
+    "tags": ["Pass", "Gi", "No-Gi", "Tight Passing"]
+  },
+  { 
+    "name": "Closed Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Open Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Half Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Deep Half Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Spider Guard",
+    "tags": ["Guard", "Gi"]
+  },
+  { 
+    "name": "De La Riva Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Reverse De La Riva",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "X-Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Single-Leg X Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Butterfly Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Lasso Guard",
+    "tags": ["Guard", "Gi"]
+  },
+  { 
+    "name": "50/50 Guard",
+    "tags": ["Guard", "Leglock", "Gi", "No-Gi", "Leg Entanglement"]
+  },
+  { 
+    "name": "Z-Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  
+  { 
+    "name": "Worm Guard",
+    "tags": ["Guard", "Gi"]
+  },
+  { 
+    "name": "Rubber Guard",
+    "tags": ["Guard", "No-Gi", "Leg Entanglement"]
+  },
+  { 
+    "name": "Side Guard",
+    "tags": ["Guard", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Scissor Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Flower Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Pendulum Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Hip Bump Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Tripod Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Butterfly Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Lumberjack Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Elevator Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "X-Guard Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Single-Leg X Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Tomoe Nage",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "De La Riva Sweep",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Sumi Gaeshi",
+    "tags": ["Sweep", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Bridge and Roll (Mount Escape)",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Elbow Escape (Mount Escape)",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Shrimp Escape (Side Control Escape)",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Running Man Escape",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Turtle Escape",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Back Escape",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Knee Shield Escape",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Half Guard Recovery",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Guard Recovery",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Leg Pummel Escape",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Butterfly Guard Hook Escape",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Kesa Gatame Escape",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "North-South Escape",
+    "tags": ["Escape", "Gi", "No-Gi"]
+  },
+  { 
+    "name": "Single Leg Takedown",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "Double Leg Takedown",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "Snap Down",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "Duck Under",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "Arm Drag",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "High Crotch",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "Body Lock Takedown",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "Ankle Pick",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "Uchi Mata",
+    "tags": ["Takedown", "Gi", "No-Gi", "Judo"]
+  },
+  { 
+    "name": "Osoto Gari",
+    "tags": ["Takedown", "Gi", "No-Gi", "Judo"]
+  },
+  { 
+    "name": "Harai Goshi",
+    "tags": ["Takedown", "Gi", "No-Gi", "Judo"]
+  },
+  { 
+    "name": "Sumi Gaeshi",
+    "tags": ["Takedown", "Gi", "No-Gi", "Judo"]
+  },
+  { 
+    "name": "Ouchi Gari",
+    "tags": ["Takedown", "Gi", "No-Gi", "Judo"]
+  },
+  { 
+    "name": "Ippon Seoi Nage",
+    "tags": ["Takedown", "Gi", "No-Gi", "Judo"]
+  },
+  { 
+    "name": "Fireman's Carry",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "Inside Trip",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "Outside Trip",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  },
+  { 
+    "name": "Knee Tap",
+    "tags": ["Takedown", "Gi", "No-Gi", "Wrestling"]
+  }
+]

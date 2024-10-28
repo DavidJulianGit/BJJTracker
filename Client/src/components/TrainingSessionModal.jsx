@@ -4,9 +4,10 @@ import { Plus, X } from 'react-bootstrap-icons';
 
 export default function TrainingSessionModal({ show, handleClose, handleSave, editingSession }) {
   const [formData, setFormData] = useState({
+    _id: null,
     date: '',
     time: '',
-    totalDuration: 0,
+    totalDuration: '',
     techniques: [],
     note: '',
     tags: []
@@ -24,29 +25,30 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
   }, []);
 
   useEffect(() => {
-    
     if (editingSession) {
+      console.log("Editing session:", editingSession);
+      setFilteredTags([]);
+      setFilteredTechniques([]);
       setFormData({
+        _id: editingSession._id,
         date: new Date(editingSession.date).toISOString().split('T')[0],
-        time: editingSession.time,
-        totalDuration: editingSession.totalDuration,
-        techniques: editingSession.techniques.map(tech => ({
+        time: editingSession.time || '',
+        totalDuration: editingSession.totalDuration || '',
+        techniques: editingSession.techniques ? editingSession.techniques.map(tech => ({
           technique: tech.technique._id,
           name: tech.technique.name,
-          duration: tech.duration,
-          repetitions: tech.repetitions
-        })),
-        note: editingSession.note,
-        tags: editingSession.tags.map(tag => ({
-          _id: tag._id,
-          name: tag.name
-        }))
+          duration: tech.duration || '',
+          repetitions: tech.repetitions || ''
+        })) : [],
+        note: editingSession.note || '',
+        tags: editingSession.tags ? editingSession.tags.map(tag => tag._id) : []
       });
     } else {
       setFormData({
+        _id: null,
         date: new Date().toISOString().split('T')[0],
         time: '',
-        totalDuration: 0,
+        totalDuration: '',
         techniques: [],
         note: '',
         tags: []
@@ -55,16 +57,19 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
   }, [editingSession]);
 
   useEffect(() => {
-    const filtered = techniques.filter(technique =>
-      technique.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filtered = techniques
+      .filter(technique => !technique.isDeleted)
+      .filter(technique =>
+        technique.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ).sort((a, b) => a.name.localeCompare(b.name));
     setFilteredTechniques(filtered);
   }, [searchTerm, techniques]);
 
   useEffect(() => {
-    const filtered = tags.filter(tag =>
-      tag.name.toLowerCase().includes(tagSearchTerm.toLowerCase())
-    );
+    const filtered = tags
+    .filter(tag => !tag.isDeleted)
+    .filter(tag => tag.name.toLowerCase().includes(tagSearchTerm.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name));
     setFilteredTags(filtered);
   }, [tagSearchTerm, tags]);
 
@@ -73,7 +78,6 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
 			headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
 		});
 		const data = await response.json();
-		console.log("fetched Tags: ", data);
 		setTags(data);
 	};
 
@@ -91,7 +95,7 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prevData => ({ ...prevData, [name]: value || '' }));
   };
 
   const handleAddTechnique = (technique, event) => {
@@ -110,28 +114,26 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
   };
   
   const handleAddTag = (tag, event) => {
-    // Prevent the click from propagating to the modal backdrop
     event.preventDefault();
-
-    if (!formData.tags.some(t => t._id === tag._id)) {
+    if (tag && tag._id && !formData.tags.includes(tag._id)) {
       setFormData(prevData => ({
         ...prevData,
-        tags: [...prevData.tags, tag]
+        tags: [...prevData.tags, tag._id]
       }));
     }
   };
 
-  const handleRemoveTag = (tag) => {
+  const handleRemoveTag = (tagId) => {
     setFormData(prevData => ({
       ...prevData,
-      tags: prevData.tags.filter(t => t._id !== tag._id)
+      tags: prevData.tags.filter(id => id !== tagId)
     }));
   };
 
   const handleTechniqueChange = (index, field, value) => {
     setFormData(prevData => {
       const updatedTechniques = [...prevData.techniques];
-      updatedTechniques[index][field] = parseInt(value, 10) || 0;
+      updatedTechniques[index][field] = value || '';
       return { ...prevData, techniques: updatedTechniques };
     });
   };
@@ -145,6 +147,7 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Submitting form data:", formData);
     handleSave(formData);
   };
 
@@ -161,7 +164,7 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
             <Form.Control
               type="date"
               name="date"
-              value={formData.date}
+              value={formData.date || ''}
               onChange={handleInputChange}
               required
             />
@@ -172,7 +175,7 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
             <Form.Control
               type="time"
               name="time"
-              value={formData.time}
+              value={formData.time || ''}
               onChange={handleInputChange}
               required
             />
@@ -183,7 +186,7 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
             <Form.Control
               type="number"
               name="totalDuration"
-              value={formData.totalDuration}
+              value={formData.totalDuration || ''}
               onChange={handleInputChange}
               required
             />
@@ -203,11 +206,11 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
             {/* filtered Techniques List */}
             <ListGroup className="mt-2 px-2">
               {searchTerm && filteredTechniques.map(technique => (
-                <ListGroup.Item action key={technique._id} onClick={(e) => handleAddTechnique(technique, e)} style={{cursor: 'pointer'}}>
+                <ListGroup.Item action key={technique._id} onClick={(e) =>{handleAddTechnique(technique, e), setSearchTerm('')}} style={{cursor: 'pointer'}} className="py-1">
                   <Row>
                     <Col>{technique.name}</Col>
                     <Col xs="auto">
-                      <Plus size={20} className='text-primary' />
+                      <Plus size={20} className='text-success' />
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -215,11 +218,12 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
             </ListGroup>
           </Form.Group>
           {/* Added Techniques */}
-          <Form.Group className="mb-4">
-            <Form.Label className="fw-semibold">Added Techniques</Form.Label>
+          <Form.Label className="fw-semibold">Added Techniques</Form.Label>
+          <Form.Group className="mb-4 px-2">
+            
             
               {formData.techniques.length > 0 ? formData.techniques.map((tech, index) => (
-                <Container key={index} className="mb-3 border border-light-subtle rounded ">
+                <Container key={index} className="mb-3 border border-light-subtle rounded  ">
                   <Row className='border-bottom border-light-subtle p-2 bg-light'>
                     <Col className="align-middle p-0">
                       {tech.name} 
@@ -276,22 +280,30 @@ export default function TrainingSessionModal({ show, handleClose, handleSave, ed
               <Button variant="outline-primary" onClick={() => setTagSearchTerm('')} ><X size={20} /></Button>
             </InputGroup>
             {/* Filtered Tags List */}
-            <ListGroup className="mt-2 mb-4 px-2">
+            <ListGroup className="mt-2 mb-1 px-2">
               {tagSearchTerm && filteredTags.slice(0, 5).map(tag => (
-                <ListGroup.Item action key={tag._id} onClick={(e) => handleAddTag(tag, e)} style={{cursor: 'pointer'}}>
+                <ListGroup.Item action key={tag._id} onClick={(e) => {handleAddTag(tag, e), setTagSearchTerm('')}} style={{cursor: 'pointer'}} className="py-1">
                   <Row>
                     <Col>{tag.name}</Col>
                     <Col xs="auto">
-                      <Plus size={20} className='text-primary' />
+                      <Plus size={20} className='text-success' />
                     </Col>
                   </Row>
                 </ListGroup.Item>
               ))}
             </ListGroup>
             {/* Added Tags */}  
-            {formData.tags.length > 0 ? formData.tags.map(tag => (
-              <Badge key={tag._id} bg='secondary' className="m-1 pe-1 text-white">{tag.name}<X size={20} onClick={() => handleRemoveTag(tag)} className="p-0" style={{cursor: 'pointer'}} /></Badge>
-            )) : <p className='text-center my-3 text-secondary'>No tags added</p>}
+            <Container className='px-2'>
+              {formData.tags.length > 0 ? formData.tags.map(tagId => {
+                const tag = tags.find(t => t._id === tagId);
+                return tag ? (
+                  <Badge key={tag._id} bg='secondary' className=" me-1 pe-1 text-white">
+                    {tag.name}
+                    <X size={20} onClick={() => handleRemoveTag(tag._id)} className="p-0" style={{cursor: 'pointer'}} />
+                  </Badge>
+                ) : null;
+              }) : <p className='text-center my-3 text-secondary'>No tags added</p>}
+            </Container>
           </Form.Group>
           {/* Note */}
           <Form.Group className="mb-3">

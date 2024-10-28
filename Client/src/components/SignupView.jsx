@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useDispatch } from 'react-redux';
+import { signupUser, clearUserProfile, fetchUserProfile } from '../store/slices/userSlice';
+import { clearTrainingSessions } from '../store/slices/trainingSessionsSlice';
 import {
    Modal,
    Container,
@@ -15,6 +18,8 @@ import { EyeSlashFill, EyeFill } from 'react-bootstrap-icons';
 
 export default function SignupView() {
    const { login } = useAuth();
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
    const [formData, setFormData] = useState({
       email: '',
       password: '',
@@ -26,7 +31,6 @@ export default function SignupView() {
    const [showModal, setShowModal] = useState(false);
    const [modalContent, setModalContent] = useState({ title: '', message: '' });
    const [passwordShown, setPasswordShown] = useState(false);
-   const navigate = useNavigate();
 
    const togglePasswordVisibility = () => {
       setPasswordShown(!passwordShown);
@@ -43,25 +47,26 @@ export default function SignupView() {
    const handleSubmit = async (event) => {
       event.preventDefault();
       try {
-         const response = await fetch('http://localhost:5000/api/auth/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
-         });
-
-         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.msg || `HTTP error! status: ${response.status}`);
+         const resultAction = await dispatch(signupUser(formData));
+         if (signupUser.fulfilled.match(resultAction)) {
+            // Clear existing user data and training sessions
+            dispatch(clearUserProfile());
+            dispatch(clearTrainingSessions());
+            
+            // Login with new user data
+            login(resultAction.payload);
+            
+            // Fetch user profile
+            await dispatch(fetchUserProfile());
+            
+            setModalContent({ title: 'Welcome', message: `Signup successful! Welcome, ${formData.username || 'user'}.` });
+            setShowModal(true);
+            setTimeout(() => {
+               navigate('/');
+            }, 2000);
+         } else {
+            throw new Error(resultAction.error.message);
          }
-
-         const userData = await response.json();
-         login(userData);
-         setModalContent({ title: 'Welcome', message: `Signup successful! Welcome, ${formData.username || 'user'}.` });
-         setShowModal(true);
-         setTimeout(() => {
-            navigate('/');
-         }, 2000);
-
       } catch (error) {
          console.error('Signup submission error:', error);
          setModalContent({ title: 'Error', message: error.message || 'An unexpected error occurred during signup' });
@@ -117,19 +122,6 @@ export default function SignupView() {
                         name="username"
                         className="rounded"
                         value={formData.username}
-                        onChange={handleChange}
-                        required
-                     />
-                  </Form.Group>
-
-                  <Form.Group className="my-3">
-                     <Form.Label htmlFor="birthday">Birthday</Form.Label>
-                     <Form.Control
-                        type="date"
-                        id="birthday"
-                        name="birthday"
-                        className="rounded"
-                        value={formData.birthday}
                         onChange={handleChange}
                         required
                      />

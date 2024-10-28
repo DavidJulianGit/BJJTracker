@@ -1,0 +1,211 @@
+// Import our variable overrides
+@import "variables";
+
+// Import all of Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// Define consistent background colors
+$light-bg: $gray-100;
+$dark-bg: $gray-900;
+
+// Root variables
+:root {
+  --light-bg: #{$light-bg};
+  --dark-bg: #{$dark-bg};
+}
+
+// Base styles
+body {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, outline-color 0.3s ease, box-shadow 0.3s ease, text-shadow 0.3s ease, fill 0.3s ease, stroke 0.3s ease ;
+}
+
+// Light mode styles
+[data-bs-theme="light"] {
+  --bs-body-bg: var(--light-bg);
+  --bs-body-color: #{$gray-900};
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+// Dark mode styles
+[data-bs-theme="dark"] {
+  --bs-body-bg: var(--dark-bg);
+  --bs-body-color: #{$gray-100};
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+// Generate belt rank color themes
+@each $belt, $modes in $belt-colors {
+  [data-belt-rank="#{$belt}"] {
+    @each $mode in ("light", "dark") {
+      &[data-bs-theme="#{$mode}"] {
+        @each $color, $value in map-get($modes, $mode) {
+          @if $color != "light" and $color != "dark" {
+            --bs-#{$color}: #{$value};
+            --bs-#{$color}-rgb: #{red($value)}, #{green($value)}, #{blue($value)};
+          }
+        }
+
+        // Apply theme colors to Bootstrap components
+        .btn-primary {
+          --bs-btn-bg: var(--bs-primary);
+          --bs-btn-border-color: var(--bs-primary);
+          --bs-btn-color: var(--bs-light);
+          --bs-btn-hover-bg: var(--bs-secondary);
+          --bs-btn-hover-border-color: var(--bs-secondary);
+          --bs-btn-active-bg: var(--bs-secondary);
+          --bs-btn-active-border-color: var(--bs-secondary);
+        }
+
+        .btn-outline-primary {
+          --bs-btn-color: var(--bs-primary);
+          --bs-btn-border-color: var(--bs-primary);
+          --bs-btn-hover-bg: var(--bs-primary);
+          --bs-btn-hover-border-color: var(--bs-primary);
+          --bs-btn-active-bg: var(--bs-primary);
+          --bs-btn-active-border-color: var(--bs-primary);
+        }
+
+        .btn-danger {
+            --bs-btn-bg: var(--bs-danger);
+            --bs-btn-border-color: var(--bs-danger);
+            --bs-btn-color: var(--bs-light);
+            --bs-btn-hover-bg: var(--bs-secondary);
+            --bs-btn-hover-border-color: var(--bs-secondary);
+            --bs-btn-active-bg: var(--bs-secondary);
+            --bs-btn-active-border-color: var(--bs-secondary);
+          }
+  
+        .btn-outline-danger {
+          --bs-btn-color: var(--bs-danger);
+          --bs-btn-border-color: var(--bs-danger);
+          --bs-btn-hover-bg: var(--bs-danger);
+          --bs-btn-hover-border-color: var(--bs-danger);
+          --bs-btn-active-bg: var(--bs-danger);
+          --bs-btn-active-border-color: var(--bs-danger);
+          }
+
+        .navbar {
+          --bs-navbar-color: var(--bs-light);
+          --bs-navbar-hover-color: var(--bs-light);
+          --bs-navbar-active-color: var(--bs-light);
+          background-color: var(--bs-primary);
+        }
+
+        // Calendar styles
+        .rbc-calendar {
+          color: var(--bs-body-color);
+
+          .rbc-toolbar button {
+            color: var(--bs-body-color);
+            border-color: var(--bs-primary);
+            
+            &:hover, &:focus, &:active {
+              background-color: var(--bs-primary);
+              color: var(--bs-light);
+              border-color: var(--bs-primary);
+            }
+
+            &.rbc-active {
+              background-color: var(--bs-primary);
+              color: var(--bs-light);
+            }
+          }
+
+          .rbc-month-view, 
+          .rbc-time-view {
+            border-color: var(--bs-primary);
+          }
+
+          .rbc-header {
+            color: var(--bs-body-color);
+            border-color: var(--bs-primary);
+          }
+
+          .rbc-off-range-bg {
+            background-color: var(--bs-secondary-bg);
+          }
+
+          .rbc-today {
+            background-color: var(--bs-primary-bg-subtle);
+          }
+
+          .rbc-event {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+            color: var(--bs-light);
+
+            &:hover {
+              background-color: var(--bs-secondary);
+            }
+          }
+
+          .rbc-day-bg + .rbc-day-bg,
+          .rbc-month-row + .rbc-month-row {
+            border-color: var(--bs-primary);
+          }
+
+          .rbc-date-cell {
+            color: var(--bs-body-color);
+          }
+
+          .rbc-time-content,
+          .rbc-time-header-content {
+            border-color: var(--bs-primary);
+          }
+
+          .rbc-time-header-gutter,
+          .rbc-time-gutter {
+            color: var(--bs-body-color);
+          }
+
+          .rbc-timeslot-group {
+            border-color: var(--bs-primary);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Override Bootstrap button styles
+.btn-primary {
+  color: var(--bs-btn-color);
+  background-color: var(--bs-btn-bg);
+  border-color: var(--bs-btn-border-color);
+
+  &:hover, &:focus, &:active {
+    color: var(--bs-btn-color);
+    background-color: var(--bs-btn-hover-bg);
+    border-color: var(--bs-btn-hover-border-color);
+  }
+}
+
+.btn-outline-primary {
+  color: var(--bs-btn-color);
+  border-color: var(--bs-btn-border-color);
+
+  &:hover, &:focus, &:active {
+    color: var(--bs-light);
+    background-color: var(--bs-btn-hover-bg);
+    border-color: var(--bs-btn-hover-border-color);
+  }
+}
+
+// Table header styles
+table {
+  th {
+    &.sorted-header {
+      background-color: var(--bs-secondary);
+      color: var(--bs-light);
+      cursor: pointer;
+    }
+
+    &.clickable-header {
+      cursor: pointer;
+    }
+  }
+}
+
+// Additional custom styles can be added here
